@@ -1,7 +1,7 @@
 import Sequelize from 'sequelize';
 import db from '../database/db.js';
 
-export default Recording = db.define('recording', {
+const Recording = db.define('recording', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -30,19 +30,36 @@ export default Recording = db.define('recording', {
         type: Sequelize.DATE,
         allowNull: false
     },
-    recording_video: {
+    recording_video_url: {
         // Video URL Storage
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    recording_audio_url: {
+        // Audio URL Storage
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    recording_chat_url: {
+        // Chat URL Storage
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+    recording_video: {
+        // MP4 Video Storage
         type: Sequelize.BLOB,
         allowNull: false
     },
     recording_audio: {
-        // Audio URL Storage
+        // MP3 Audio Storage
         type: Sequelize.BLOB,
         allowNull: false
     },
     recording_chat: {
-        // Chat URL Storage
+        // JSON Chat Storage
         type: Sequelize.BLOB,
         allowNull: false
     }
 });
+
+export default Recording;
