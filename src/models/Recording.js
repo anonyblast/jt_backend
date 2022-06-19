@@ -7,57 +7,48 @@ const Recording = db.define('recording', {
         primaryKey: true,
         autoIncrement: true
     },
-    user_id : {
-        type: Sequelize.INTEGER,
-        references: {
-            model: 'user',
-            key: 'id'
-        }
-    },
-    name: {
+    host_id : {
         type: Sequelize.STRING,
         allowNull: false
     },
-    description: {
+    meeting_id: {
+        type: Sequelize.BIGINT,
+        allowNull: false
+    },
+    host_email: {
         type: Sequelize.STRING,
         allowNull: false
     },
-    buttons: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        allowNull: false
+    description : {
+        type: Sequelize.STRING,
+        allowNull: true
     },
-    created_at: {
-        type: Sequelize.DATE,
-        allowNull: false
+    buttons : {
+        type: Sequelize.STRING,
+        allowNull: true
     },
-    recording_video_url: {
-        // Video URL Storage
+    start_time : {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    end_time : {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    recording_video_url : {
         type: Sequelize.STRING,
         allowNull: false
     },
-    recording_audio_url: {
-        // Audio URL Storage
+    recording_audio_url : {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    recording_chat_url : {
         type: Sequelize.STRING,
         allowNull: false
     },
-    recording_chat_url: {
-        // Chat URL Storage
+    recording_timeline_url : {
         type: Sequelize.STRING,
-        allowNull: false
-    },
-    recording_video: {
-        // MP4 Video Storage
-        type: Sequelize.BLOB,
-        allowNull: false
-    },
-    recording_audio: {
-        // MP3 Audio Storage
-        type: Sequelize.BLOB,
-        allowNull: false
-    },
-    recording_chat: {
-        // JSON Chat Storage
-        type: Sequelize.BLOB,
         allowNull: false
     }
 });

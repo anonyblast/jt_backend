@@ -9,6 +9,14 @@ router.post('/', (req, res) => {
     validate_fields.validate_fields(req, res, () => {
         const { name, email, password, user_type } = req.body;
         console.log(`name: ${name}\nemail: ${email}\npassword: ${password}\nuser_type: ${user_type}`);
+        const userExists = User.findOne({
+            where: {
+                email: email
+            }
+        });
+        if (userExists) {
+            res.status(400).send('User already exists');
+        }
         User.create({
             name : name,
             email : email,

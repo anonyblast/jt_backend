@@ -27,17 +27,21 @@ import Recording from '../models/Recording.js';
 
     // Corrigir o schema para criar dados fakes e inicializar a tabela no banco de dados
     const resultCreateRecording = await Recording.create({
-        user_id : 1,
-        name: 'Recording 1',
-        description: 'Recording 1 description',
-        buttons: [1, 2, 3],
-        created_at: new Date(),
-        recording_video: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        recording_audio: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-        recording_chat: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+        id: 1,
+        host_id : 'NHJK3JdLRAConekriTeste',
+        meeting_id: 81206522155,
+        host_email: 'teste@email.com',
+        description : 'teste',
+        buttons : 'teste',
+        start_time : '2022-01-01',
+        end_time : '2022-01-01',
+        recording_video_url : 'https://zoom.us/j/81206522134',
+        recording_audio_url : 'https://zoom.us/j/81206522134',
+        recording_chat_url : 'https://zoom.us/j/81206522134',
+        recording_timeline_url : 'https://zoom.us/j/81206522134'
     }) .then((recording) => {
         console.log(blue + "Recording created sucessfully" + reset);
     }) .catch((error) => {
-        console.log('Error creating recording');
+        console.log('Error creating recording\n' + error);
     });
 })();
