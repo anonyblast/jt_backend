@@ -1,11 +1,10 @@
 import { Router } from 'express';
+const router = Router();
 import Video from '../models/Video.js';
-import Recording from '../models/Recording.js';
 import TimeByWords from '../middlewares/TimeByWords.js';
 import config from '../config/config.js';
 import { QueryTypes, Sequelize } from 'sequelize';
-// import { Promise } from 'sequelize';
-const router = Router();
+
 const sequelize = new Sequelize(config.database, config.user, config.pw, { dialect: 'mysql', host: 'localhost', logging: false });
 
 router.post('/:recordingID/createEntity/recording', (req, res) => {
@@ -18,11 +17,11 @@ router.post('/:recordingID/createEntity/recording', (req, res) => {
         participants : string
             ex : "email@email.com|email2@email.com"
         file : blob
-            ex : "C:\\Users\\user\\Desktop\\video.mp4"
+            ex : C:\\Users\\user\\Desktop\\video.mp4"
         txt_file : blob
             ex : "C:\\Users\\user\\Desktop\\video.txt"
         file_name : string
-            ex : "video.mp4"
+            ex : "video.mp4" ou "video"
         buttons : string
             ex : "button1|button2"
     */
@@ -42,6 +41,8 @@ router.post('/:recordingID/createEntity/recording', (req, res) => {
     });
 
     let timeByWords = new TimeByWords();
+    // txt_file = C:\User\Downloads\File.txt
+    // buttons = HTML|CSS|JS
     timeByWords.handleFile(txt_file, buttons, parseInt(recordingID));
 
     Video.create({
@@ -88,33 +89,21 @@ router.get('/:recordingID/getEntity/recording', (req, res) => {
         })
 });
 
-// Criar um endpoint para retornar um video especifico
+
 router.get('/:recordingID/getEntity/player', (req, res) => {
     const { recordingID } = req.params;
     const { recording_path } = req.query;
-
-    const VIDEO = sequelize.query(`SELECT \`file\` FROM \`videos\` WHERE meeting_id = ${parseInt(recordingID)}`, {
-        type: QueryTypes.SELECT
-    });
-    const FILE_NAME = sequelize.query(`SELECT \`file_name\` FROM \`videos\` WHERE meeting_id = ${parseInt(recordingID)}`, {
-        type: QueryTypes.SELECT
-    });
-
-    Promise.all([VIDEO, FILE_NAME])
-        .then(([video, file_name]) => {
-            const VIDEO = video[0].file;
-            const FILE_NAME = file_name[0].file_name;
-            res.status(200).json({ video: VIDEO, file_name: FILE_NAME });
-        }).catch((err) => {
-            res.status(400).json({ error: err });
-        });
-    console.log(VIDEO);
-    console.log(FILE_NAME);
-
-    if (!VIDEO || !FILE_NAME)
-        res.status(400).json({ error: "Recording does not exist" });
-
-    res.status(200).sendFile(FILE_NAME.file_name, { root : recording_path});
+    const FILE_PATH = recording_path.replace(/\\/gm, "\\\\");
+    sequelize.query(`SELECT \`file_name\` FROM \`videos\` GROUP BY \`file_name\``, { 
+        type : QueryTypes.SELECT
+    }).then((v) => 
+    {
+        let containsMP4 = v[0].file_name;
+        if (containsMP4.toUpperCase().includes('.MP4') == true)
+            res.status(200).sendFile(v[0].file_name, { root : FILE_PATH});
+        else 
+            res.status(200).sendFile(`${v[0].file_name}.MP4`, { root : FILE_PATH});
+    }) 
 });
 
 router.delete('/:recordingID/deleteEntity/recording', (req, res) => {

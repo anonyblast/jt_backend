@@ -38,7 +38,7 @@ export default class TimeByWords {
         return (this.convertTimeToSeconds(timeByChat))
     }
 
-    handleFile(file, keywordsToAdd, recordingID, title) {
+    handleFile(file, keywordsToAdd, recordingID) {
         let arrTIME_OBJ = new Array();
         let keywordsToProcess = this.addKeywords(keywordsToAdd);
         fs.readFile(file, 'utf8', (err, data) => {
@@ -59,8 +59,10 @@ export default class TimeByWords {
                     first_time: arr[0],
                     last_time: arr[arr.length - 1]
                 }
+
                 arrTIME_OBJ.push(TIME_OBJ);
             }
+
             for (let time in arrTIME_OBJ)
                 this.arrToTimes.push(this.getSubjectByTime(arrTIME_OBJ[time].first_time));
             console.log(this.arrToTimes);

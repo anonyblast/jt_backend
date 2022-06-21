@@ -14,9 +14,8 @@ router.post('/createUser', (req, res) => {
                 email: email
             }
         });
-        if (userExists) {
+        if (userExists)
             res.status(400).send('User already exists');
-        }
         User.create({
             name : name,
             email : email,
@@ -55,6 +54,7 @@ router.put('/updateUser', (req, res) => {
             password: password
         }
     });
+
     if (user) {
         user.update({
             name: name,
