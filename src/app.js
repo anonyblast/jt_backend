@@ -13,4 +13,30 @@ app.use('/signup', rotaApiSignup);
 app.use('/login', rotaApiLogin);
 app.use('/video', rotaApiRecording);
 
+/* ******************************************************************************************* */
+/* Referência das APIs  (JUMP TO MEETINGS RECORDINGS INC.)                                     */
+/* Endpoints:                                                                                  */
+/* ******************************************************************                          */
+/* http://localhost:3300/zoom                                                                  */
+/* GET                       /:userID/listRecordings                                           */ 
+/* GET                       /:userID/listRecordings?from=YYYY-MM-DD&to=YYYY-MM-DD (opcional)  */
+/* GET                       /:recordingID/download                                            */
+/* GET                       /:recordingID/createEntity/recording                              */ 
+/* ******************************************************************************************* */
+/* http://localhost:3300/signup                                                                */
+/* POST                      /createUser                                                       */
+/* GET                       /getUser                                                          */
+/* PUT                       /updateUser                                                       */
+/* DELETE                    /:email/delete                                                    */
+/* ******************************************************************************************* */
+/* http://localhost:3300/login                                                                 */   
+/* POST                      /login                                                            */                          
+/* ******************************************************************************************* */
+/*  http://localhost:3300/video                                                                */          
+/* POST                      /:recordingID/createEntity/recording                              */                         
+/* GET                       /:recordingID/getEntity/recording                                 */                    
+/* GET                       /:recordingID/getEntity/player                                    */                
+/* DELETE                    /:recordingID/deleteEntity/recording                              */            
+/* ******************************************************************************************* */
+
 export default app;
