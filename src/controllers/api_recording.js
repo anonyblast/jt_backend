@@ -89,16 +89,21 @@ router.get('/:recordingID/getEntity/recording', (req, res) => {
         })
 });
 
-
+/*
+    Para requisitar o player do video, basta passar o caminho do video como parametro na url.
+        Ex: localhost:3300/video/:recordingID/getEntity/player?recording_path=C:\Users\user\Desktop\
+    Onde :recordingID é o id do video, e com ele será possível acessar o nome da gravação.
+*/
 router.get('/:recordingID/getEntity/player', (req, res) => {
     const { recordingID } = req.params;
     const { recording_path } = req.query;
     const FILE_PATH = recording_path.replace(/\\/gm, "\\\\");
-    sequelize.query(`SELECT \`file_name\` FROM \`videos\` GROUP BY \`file_name\``, { 
+    sequelize.query(`SELECT \`file_name\` FROM \`videos\` WHERE \`meeting_id\` = ${recordingID} GROUP BY \`file_name\``, { 
         type : QueryTypes.SELECT
-    }).then((v) => 
+    }).then((v) =>  
     {
         let containsMP4 = v[0].file_name;
+        console.log(`${FILE_PATH}${containsMP4}`);
         if (containsMP4.toUpperCase().includes('.MP4') == true)
             res.status(200).sendFile(v[0].file_name, { root : FILE_PATH});
         else 
